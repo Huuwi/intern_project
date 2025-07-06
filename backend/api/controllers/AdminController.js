@@ -73,7 +73,7 @@ module.exports = {
     updateProduct: async (req, res) => {
         try {
             const { productId, productName, productPrice } = req.body;
-            if (productId) {
+            if (!productId) {
                 return res.status(400).json({
                     message: "productId invalid"
                 })
