@@ -497,6 +497,95 @@ paths:
                     type: string
                     example: "have wrong"
 
+  /api/page/listProducts:
+    get:
+      summary: Lấy danh sách sản phẩm theo phân trang
+      description: Trả về danh sách sản phẩm dựa trên phân trang với các tham số pageIndex và perPage.
+      parameters:
+        - in: query
+          name: pageIndex
+          schema:
+            type: integer
+            minimum: 0
+          required: true
+          description: Chỉ số trang (bắt đầu từ 0)
+        - in: query
+          name: perPage
+          schema:
+            type: integer
+            minimum: 1
+          required: true
+          description: Số lượng sản phẩm mỗi trang
+      responses:
+        '200':
+          description: Danh sách sản phẩm
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "ok"
+                  productList:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+        '400':
+          description: Thiếu hoặc sai dữ liệu đầu vào
+          content:
+            application/json:
+              example:
+                message: "missing data"
+        '500':
+          description: Lỗi server nội bộ
+          content:
+            application/json:
+              example:
+                message: "have wrong!"
+
+  /api/page/searchProductByName:
+    post:
+      summary: Tìm kiếm sản phẩm theo tên
+      description: Trả về danh sách sản phẩm có tên chứa chuỗi được cung cấp.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                productName:
+                  type: string
+                  example: "iPhone"
+      responses:
+        '200':
+          description: Danh sách sản phẩm phù hợp
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "ok"
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+        '400':
+          description: Dữ liệu đầu vào bị thiếu
+          content:
+            application/json:
+              example:
+                message: "missing data"
+        '500':
+          description: Lỗi server nội bộ
+          content:
+            application/json:
+              example:
+                message: "have wrong!"
+
 
 
 

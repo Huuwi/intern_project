@@ -6,7 +6,7 @@ module.exports = {
             const pageIndex = Number(req.query.pageIndex)
             const perPage = Number(req.query.perPage)
 
-            if (!pageIndex || !perPage) {
+            if ((!pageIndex && pageIndex !== 0) || (!perPage && perPage !== 0)) {
                 return res.status(400).json({
                     message: "missing data"
                 })
