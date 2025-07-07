@@ -1,4 +1,4 @@
-# INTERN_TEST <hr>
+# INTERN_PROJECT <hr>
 
 ## 📌 Prerequirements
 

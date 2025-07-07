@@ -23,7 +23,9 @@ const LoginPage = () => {
         setLoading(true)
         setError('')
         try {
-            const res = await axios.post(CONST.backendUrl + '/login', form)
+            const res = await axios.post(CONST.backendUrl + '/login', form, {
+                withCredentials: true
+            })
             const userData = res.data.userData
             localStorage.setItem('userData', JSON.stringify(userData))
             navigate("/products")

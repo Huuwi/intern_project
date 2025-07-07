@@ -1,6 +1,7 @@
 const AuthHelper = require("../Utils/AuthUtils")
 const UserService = require("../services/UserService")
 const ProductService = require("../services/ProductService")
+const bcrypt = require("bcrypt");
 
 module.exports = {
     getListUsers: async (req, res) => {
@@ -52,8 +53,8 @@ module.exports = {
     },
     addNewProduct: async (req, res) => {
         try {
-            const { productName, productPrice } = req.body;
-            if (!productName || !productPrice) {
+            const { productName, productPrice, normalizedProductName, imageLink } = req.body;
+            if (!productName || !productPrice || !normalizedProductName || !imageLink) {
                 return res.status(400).json({
                     message: "missing data"
                 })
@@ -63,7 +64,7 @@ module.exports = {
                     message: "productPrice invalid"
                 })
             }
-            const newProduct = await ProductService.addNewProduct({ productName, productPrice });
+            const newProduct = await ProductService.addNewProduct({ productName, productPrice, normalizedProductName, imageLink });
             return res.status(201).json({ data: newProduct });
         } catch (error) {
             console.log("err when addNewProduct : ", error)
@@ -88,6 +89,42 @@ module.exports = {
         } catch (error) {
             console.log("err when updateProduct : ", error)
             return res.status(500).json({ message: "have wrong" });
+        }
+    },
+    addNewUser: async (req, res) => {
+        const { username, password, nickName } = req.body;
+        if (!username || !password || !nickName) {
+            return res.status(400).json({ message: "missing data!" });
+        }
+
+        try {
+            const existingUser = await globalThis.db.collection("User").findOne({ username });
+            if (existingUser) {
+                return res.status(400).json({ message: "username already exists" });
+            }
+
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            const newUser = {
+                username,
+                password: hashedPassword,
+                nickName,
+                isAdmin: false,
+            };
+
+            const result = await globalThis.db.collection("User").insertOne(newUser);
+            const insertedUser = { ...newUser, _id: result.insertedId };
+
+            return res.status(201).json({
+                message: "add user successfully",
+                userData: insertedUser,
+            });
+
+        } catch (error) {
+            return res.status(500).json({
+                message: "add user failed",
+                error: error.message,
+            });
         }
     },
 }

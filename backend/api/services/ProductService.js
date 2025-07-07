@@ -10,10 +10,12 @@ const getProductById = async (productId) => {
     return product;
 };
 
-const addNewProduct = async ({ productName, productPrice }) => {
+const addNewProduct = async ({ productName, productPrice, normalizedProductName, imageLink }) => {
     const newProduct = {
         productName,
         productPrice: Number(productPrice),
+        imageLink,
+        normalizedProductName,
     };
 
     await globalThis.db.collection('Product').insertOne(newProduct);
@@ -58,7 +60,7 @@ const findProductByName = async (name) => {
 
     const products = await globalThis.db.collection("Product").find({
         normalizedProductName: { $regex: regex }
-    }).toArray();
+    }).limit(5).toArray();
 
     return products;
 

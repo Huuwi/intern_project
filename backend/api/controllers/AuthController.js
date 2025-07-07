@@ -22,10 +22,8 @@ module.exports = {
             const { _id: userId, isAdmin } = userFound;
             const token = AuthHelper.genToken({ userId, isAdmin });
 
-            res.cookie("token", token, {
-                maxAge: 12 * 60 * 60 * 1000,
-                httpOnly: true,
-            });
+            res.cookie('token', token, { httpOnly: true, maxAge: 3600000 * 12, sameSite: "none", secure: true, });
+
 
             return res.status(200).json({
                 message: "login successfully",
@@ -63,10 +61,7 @@ module.exports = {
 
             const token = AuthHelper.genToken({ userId: insertedUser._id, isAdmin: insertedUser.isAdmin });
 
-            res.cookie("token", token, {
-                maxAge: 12 * 60 * 60 * 1000,
-                httpOnly: true,
-            });
+            res.cookie('token', token, { httpOnly: true, maxAge: 3600000 * 12, sameSite: "none", secure: true, });
 
             return res.status(201).json({
                 message: "register successfully",
@@ -79,5 +74,9 @@ module.exports = {
                 error: error.message,
             });
         }
+    },
+    logout: async (req, res) => {
+        res.clearCookie('token', { httpOnly: true, sameSite: "none", secure: true });
+        return res.status(200).json({ message: "logout successfully" });
     }
 };

@@ -4,11 +4,13 @@ module.exports = {
     "deleteUserById": "AdminController.deleteUserById",
     "deleteProductById": "AdminController.deleteProductById",
     "addNewProduct": "AdminController.addNewProduct",
-    "updateProduct": "AdminController.updateProduct"
+    "updateProduct": "AdminController.updateProduct",
+    "addNewUser": "AdminController.addNewUser"
   },
   "AuthController": {
     "login": "AuthController.login",
-    "register": "AuthController.register"
+    "register": "AuthController.register",
+    "logout": "AuthController.logout"
   },
   "PageController": {
     "pagination": "PageController.pagination",

@@ -6,14 +6,16 @@ module.exports = {
       "deleteUserById": "deleteUserById",
       "deleteProductById": "deleteProductById",
       "addNewProduct": "addNewProduct",
-      "updateProduct": "updateProduct"
+      "updateProduct": "updateProduct",
+      "addNewUser": "addNewUser"
     }
   },
   "AuthController": {
     "name": "AuthController",
     "methods": {
       "login": "login",
-      "register": "register"
+      "register": "register",
+      "logout": "logout"
     }
   },
   "PageController": {

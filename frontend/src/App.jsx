@@ -3,9 +3,9 @@ import LoginPage from "./pages/LoginPage";
 import { useEffect } from "react";
 import { CONST } from "./const";
 import axios from "axios";
-import UserHome from "./pages/user/UserHome";
 import ChangeThemeInput from "./components/ChangeThemeInput";
 import ProductListPage from "./pages/ProductListPage";
+import Admin from "./pages/Admin";
 function App() {
 
   const navigate = useNavigate()
@@ -19,7 +19,7 @@ function App() {
         })
         const userData = res.data.userData
         localStorage.setItem("userData", JSON.stringify(userData))
-        navigate("/products")
+        // navigate("/products")
       } catch (error) {
         console.log(error)
         navigate("/login")
@@ -36,6 +36,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/products" element={<ProductListPage />} />
+        <Route path="/admin" element={<Admin />} />
+
 
       </Routes>
     </>
